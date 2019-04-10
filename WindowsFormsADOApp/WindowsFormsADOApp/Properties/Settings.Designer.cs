@@ -26,9 +26,8 @@ namespace WindowsFormsADOApp.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("(localdb)\\MSSQLLocalDB;Initial Catalog=Sales;Integrated Security=True;Connect Tim" +
-            "eout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;M" +
-            "ultiSubnetFailover=False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Sales;Integrated Security=True" +
+            "")]
         public string connectionString {
             get {
                 return ((string)(this["connectionString"]));

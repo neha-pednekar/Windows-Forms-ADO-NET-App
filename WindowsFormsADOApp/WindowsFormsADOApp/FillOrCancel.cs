@@ -104,9 +104,36 @@ namespace WindowsFormsADOApp
         {
             if (IsOrderIDValid())
             {
-                using (SqlConnection sqlConnection = new SqlConnection(Properties.Settings.Default.connectionString))
+                // Create the connection.
+                using (SqlConnection connection = new SqlConnection(Properties.Settings.Default.connectionString))
                 {
+                    // Create the SqlCommand object and identify it as a stored procedure.
+                    using (SqlCommand sqlCommand = new SqlCommand("Sales.uspCancelOrder", connection))
+                    {
+                        sqlCommand.CommandType = CommandType.StoredProcedure;
 
+                        // Add the order ID input parameter for the stored procedure.
+                        sqlCommand.Parameters.Add(new SqlParameter("@orderID", SqlDbType.Int));
+                        sqlCommand.Parameters["@orderID"].Value = parsedOrderID;
+
+                        try
+                        {
+                            // Open the connection.
+                            connection.Open();
+
+                            // Run the command to execute the stored procedure.
+                            sqlCommand.ExecuteNonQuery();
+                        }
+                        catch
+                        {
+                            MessageBox.Show("The cancel operation was not completed.");
+                        }
+                        finally
+                        {
+                            // Close connection.
+                            connection.Close();
+                        }
+                    }
                 }
             }
         }
@@ -115,9 +142,39 @@ namespace WindowsFormsADOApp
         {
             if (IsOrderIDValid())
             {
-                using (SqlConnection sqlConnection = new SqlConnection(Properties.Settings.Default.connectionString))
+                // Create the connection.
+                using (SqlConnection connection = new SqlConnection(Properties.Settings.Default.connectionString))
                 {
+                    // Create command and identify it as a stored procedure.
+                    using (SqlCommand sqlCommand = new SqlCommand("Sales.uspFillOrder", connection))
+                    {
+                        sqlCommand.CommandType = CommandType.StoredProcedure;
 
+                        // Add the order ID input parameter for the stored procedure.
+                        sqlCommand.Parameters.Add(new SqlParameter("@orderID", SqlDbType.Int));
+                        sqlCommand.Parameters["@orderID"].Value = parsedOrderID;
+
+                        // Add the filled date input parameter for the stored procedure.
+                        sqlCommand.Parameters.Add(new SqlParameter("@FilledDate", SqlDbType.DateTime, 8));
+                        sqlCommand.Parameters["@FilledDate"].Value = dtpFillDate.Value;
+
+                        try
+                        {
+                            connection.Open();
+
+                            // Execute the stored procedure.
+                            sqlCommand.ExecuteNonQuery();
+                        }
+                        catch
+                        {
+                            MessageBox.Show("The fill operation was not completed.");
+                        }
+                        finally
+                        {
+                            // Close the connection.
+                            connection.Close();
+                        }
+                    }
                 }
             }
         }

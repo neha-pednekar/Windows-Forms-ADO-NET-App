@@ -88,45 +88,40 @@ namespace WindowsFormsADOApp
 
         private void btnCreateAccount_Click(object sender, EventArgs e)
         {
-            if(IsCustomerNameValid())
+            if (IsCustomerNameValid())
             {
+                // Create the connection.
                 using (SqlConnection connection = new SqlConnection(Properties.Settings.Default.connectionString))
                 {
-                    using (SqlCommand sqlCommand = new SqlCommand("Sales.uspPlaceNewOrder", connection))
+                    // Create a SqlCommand, and identify it as a stored procedure.
+                    using (SqlCommand sqlCommand = new SqlCommand("Sales.uspNewCustomer", connection))
                     {
                         sqlCommand.CommandType = CommandType.StoredProcedure;
 
+                        // Add input parameter for the stored procedure and specify what to use as its value.
+                        sqlCommand.Parameters.Add(new SqlParameter("@CustomerName", SqlDbType.NVarChar, 40));
+                        sqlCommand.Parameters["@CustomerName"].Value = txtCustomerName.Text;
+
+                        // Add the output parameter.
                         sqlCommand.Parameters.Add(new SqlParameter("@CustomerID", SqlDbType.Int));
-                        sqlCommand.Parameters["@CustomerID"].Value = this.parsedCustomerID;
-
-                        sqlCommand.Parameters.Add(new SqlParameter("@OrderDate", SqlDbType.DateTime, 8));
-                        sqlCommand.Parameters["@OrderDate"].Value = dtpOrderDate.Value;
-                        
-                        sqlCommand.Parameters.Add(new SqlParameter("@Amount", SqlDbType.Int));
-                        sqlCommand.Parameters["@Amount"].Value = numOrderAmount.Value;
-
-                        sqlCommand.Parameters.Add(new SqlParameter("@Status", SqlDbType.Char, 1));
-                        sqlCommand.Parameters["@Status"].Value = "O";
-
-                        sqlCommand.Parameters.Add(new SqlParameter("@RC", SqlDbType.Int));
-                        sqlCommand.Parameters["@RC"].Value = ParameterDirection.ReturnValue;
+                        sqlCommand.Parameters["@CustomerID"].Direction = ParameterDirection.Output;
 
                         try
                         {
-                            //Open the connection
                             connection.Open();
 
-                            //Run the stored procedure
+                            // Run the stored procedure.
                             sqlCommand.ExecuteNonQuery();
 
-                            this.orderID = (int)sqlCommand.Parameters["@RC"].Value;
-                            MessageBox.Show("Order number " + this.orderID + " has been submitted.");
+                            // Customer ID is an IDENTITY value from the database.
+                            this.parsedCustomerID = (int)sqlCommand.Parameters["@CustomerID"].Value;
 
+                            // Put the Customer ID value into the read-only text box.
+                            this.txtCustomerID.Text = Convert.ToString(parsedCustomerID);
                         }
                         catch
                         {
-                            MessageBox.Show("Order could not be placed.");
-
+                            MessageBox.Show("Customer ID was not returned. Account could not be created.");
                         }
                         finally
                         {
@@ -145,6 +140,62 @@ namespace WindowsFormsADOApp
         private void btnAddFinish_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void btnPlaceOrder_Click(object sender, EventArgs e)
+        {
+            if(IsOrderDataValid())
+            {
+                using (SqlConnection sqlConnection = new SqlConnection(Properties.Settings.Default.connectionString))
+                {
+                    using (SqlCommand sqlCommand = new SqlCommand("Sales.uspPlaceNewOrder", sqlConnection))
+                    {
+                        sqlCommand.CommandType = CommandType.StoredProcedure;
+
+                        // Add the @CustomerID input parameter, which was obtained from uspNewCustomer.
+                        sqlCommand.Parameters.Add(new SqlParameter("@CustomerID", SqlDbType.Int));
+                        sqlCommand.Parameters["@CustomerID"].Value = this.parsedCustomerID;
+
+                        // Add the @OrderDate input parameter.
+                        sqlCommand.Parameters.Add(new SqlParameter("@OrderDate", SqlDbType.DateTime, 8));
+                        sqlCommand.Parameters["@OrderDate"].Value = dtpOrderDate.Value;
+
+                        // Add the @Amount order amount input parameter.
+                        sqlCommand.Parameters.Add(new SqlParameter("@Amount", SqlDbType.Int));
+                        sqlCommand.Parameters["@Amount"].Value = numOrderAmount.Value;
+
+                        // Add the @Status order status input parameter.
+                        // For a new order, the status is always O (open).
+                        sqlCommand.Parameters.Add(new SqlParameter("@Status", SqlDbType.Char, 1));
+                        sqlCommand.Parameters["@Status"].Value = "O";
+
+                        // Add the return value for the stored procedure, which is  the order ID.
+                        sqlCommand.Parameters.Add(new SqlParameter("@RC", SqlDbType.Int));
+                        sqlCommand.Parameters["@RC"].Direction = ParameterDirection.ReturnValue;
+
+                        try
+                        {
+                            sqlConnection.Open();
+
+                            sqlCommand.ExecuteNonQuery();
+
+                            this.orderID = (int)sqlCommand.Parameters["@RC"].Value;
+                            MessageBox.Show("Order number " + this.orderID + " has been submitted.");
+
+                        }
+                        catch
+                        {
+                            MessageBox.Show("Order could not be placed.");
+
+                        }
+                        finally
+                        {
+                            sqlConnection.Close();
+                        }
+
+                    }
+                }
+            }
         }
     }
 }

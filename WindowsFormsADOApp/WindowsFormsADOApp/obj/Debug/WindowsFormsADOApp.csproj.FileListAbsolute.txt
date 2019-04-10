@@ -1,0 +1,12 @@
+C:\Users\Neha Pednekar\source\repos\Windows-Forms-ADO-NET-App\WindowsFormsADOApp\WindowsFormsADOApp\obj\Debug\WindowsFormsADOApp.csprojAssemblyReference.cache
+C:\Users\Neha Pednekar\source\repos\Windows-Forms-ADO-NET-App\WindowsFormsADOApp\WindowsFormsADOApp\obj\Debug\WindowsFormsADOApp.FillOrCancel.resources
+C:\Users\Neha Pednekar\source\repos\Windows-Forms-ADO-NET-App\WindowsFormsADOApp\WindowsFormsADOApp\obj\Debug\WindowsFormsADOApp.Navigation.resources
+C:\Users\Neha Pednekar\source\repos\Windows-Forms-ADO-NET-App\WindowsFormsADOApp\WindowsFormsADOApp\obj\Debug\WindowsFormsADOApp.NewCustomer.resources
+C:\Users\Neha Pednekar\source\repos\Windows-Forms-ADO-NET-App\WindowsFormsADOApp\WindowsFormsADOApp\obj\Debug\WindowsFormsADOApp.Properties.Resources.resources
+C:\Users\Neha Pednekar\source\repos\Windows-Forms-ADO-NET-App\WindowsFormsADOApp\WindowsFormsADOApp\obj\Debug\WindowsFormsADOApp.csproj.GenerateResource.cache
+C:\Users\Neha Pednekar\source\repos\Windows-Forms-ADO-NET-App\WindowsFormsADOApp\WindowsFormsADOApp\obj\Debug\WindowsFormsADOApp.csproj.CoreCompileInputs.cache
+C:\Users\Neha Pednekar\source\repos\Windows-Forms-ADO-NET-App\WindowsFormsADOApp\WindowsFormsADOApp\bin\Debug\WindowsFormsADOApp.exe.config
+C:\Users\Neha Pednekar\source\repos\Windows-Forms-ADO-NET-App\WindowsFormsADOApp\WindowsFormsADOApp\bin\Debug\WindowsFormsADOApp.exe
+C:\Users\Neha Pednekar\source\repos\Windows-Forms-ADO-NET-App\WindowsFormsADOApp\WindowsFormsADOApp\bin\Debug\WindowsFormsADOApp.pdb
+C:\Users\Neha Pednekar\source\repos\Windows-Forms-ADO-NET-App\WindowsFormsADOApp\WindowsFormsADOApp\obj\Debug\WindowsFormsADOApp.exe
+C:\Users\Neha Pednekar\source\repos\Windows-Forms-ADO-NET-App\WindowsFormsADOApp\WindowsFormsADOApp\obj\Debug\WindowsFormsADOApp.pdb
